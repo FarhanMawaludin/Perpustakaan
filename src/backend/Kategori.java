@@ -52,7 +52,7 @@ public class Kategori {
     
     public Kategori getById(int id){
         Kategori kat = new Kategori();
-        ResultSet rs = DBHelper.selectQuery("SELECT * FROM kategori" + "WHERE idkategori = '" + id + "'");
+        ResultSet rs = DBHelper.selectQuery("SELECT * FROM kategori WHERE idkategori= '" + id + "'");
         
         try{
             while(rs.next()){
@@ -133,6 +133,11 @@ public class Kategori {
     public void delete() {
         String SQL = "DELETE FROM kategori WHERE idkategori = '" + this.idkategori + "'";
         DBHelper.executeQuery(SQL);
+    }
+    
+    @Override
+    public String toString(){
+        return nama;
     }
 
     

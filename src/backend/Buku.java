@@ -61,71 +61,54 @@ public class Buku {
     }
     
     public Buku getById(int id) {
-    Buku buku = new Buku();
-    ResultSet rs = DBHelper.selectQuery("SELECT " +
-                                        " b.idbuku AS idbuku, " +
-                                        " b.judul AS judul, " +
-                                        " b.penerbit AS penerbit, " +
-                                        " b.penulis AS penulis, " +
-                                        " b.pinjams AS pinjam, " +
-                                        " k.idkategori AS idkategori, " +
-                                        " k.nama AS nama, " +
-                                        " k.keterangan AS keterangan " +
-                                        " FROM buku b " +
-                                        " LEFT JOIN kategori k ON b.idkategori = k.idkategori " +
-                                        " WHERE b.idbuku = '" + id + "'");
+        Buku buku = new Buku();
+        String query = "SELECT b.idbuku, b.judul, b.penerbit, b.penulis, b.idkategori, k.nama " +
+                       "FROM buku b " +
+                       "LEFT JOIN kategori k ON b.idkategori = k.idkategori " +
+                       "WHERE b.idbuku = '" + id + "'";
 
-    try {
-        while (rs.next()) {
-            buku.setIdBuku(rs.getInt("idbuku"));
-            buku.getKategori().setIdkategori(rs.getInt("idkategori"));
-            buku.getKategori().setNama(rs.getString("nama"));
-            buku.getKategori().setKeterangan(rs.getString("keterangan"));
-            buku.setJudul(rs.getString("judul"));
-            buku.setPenerbit(rs.getString("penerbit"));
-            buku.setPenulis(rs.getString("penulis"));
+        ResultSet rs = DBHelper.selectQuery(query);
+
+        try {
+            if (rs.next()) {
+                buku.setIdBuku(rs.getInt("idbuku"));
+                buku.getKategori().setIdkategori(rs.getInt("idkategori"));
+                buku.getKategori().setNama(rs.getString("nama"));
+                buku.setJudul(rs.getString("judul"));
+                buku.setPenerbit(rs.getString("penerbit"));
+                buku.setPenulis(rs.getString("penulis"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        return buku;
     }
-
-    return buku;
-}
 
 public ArrayList<Buku> getAll() {
-    ArrayList<Buku> ListBuku = new ArrayList<>();
+        ArrayList<Buku> listBuku = new ArrayList<>();
+        String query = "SELECT b.idbuku, b.judul, b.penerbit, b.penulis, b.idkategori, k.nama " +
+                       "FROM buku b " +
+                       "LEFT JOIN kategori k ON b.idkategori = k.idkategori";
 
-    ResultSet rs = DBHelper.selectQuery("SELECT " +
-                                        " b.idbuku AS idbuku, " +
-                                        " b.judul AS judul, " +
-                                        " b.penerbit AS penerbit, " +
-                                        " b.penulis AS penulis, " +
-                                        " b.pinjams AS pinjam, " +
-                                        " k.idkategori AS idkategori, " +
-                                        " k.nama AS nama, " +
-                                        " k.keterangan AS keterangan " +
-                                        " FROM buku b " +
-                                        " LEFT JOIN kategori k ON b.idkategori = k.idkategori");
+        ResultSet rs = DBHelper.selectQuery(query);
 
-    try {
-        while (rs.next()) {
-            Buku buku = new Buku();
-            buku.setIdBuku(rs.getInt("idbuku"));
-            buku.getKategori().setIdkategori(rs.getInt("idkategori"));
-            buku.getKategori().setNama(rs.getString("nama"));
-            buku.getKategori().setKeterangan(rs.getString("keterangan"));
-            buku.setJudul(rs.getString("judul"));
-            buku.setPenerbit(rs.getString("penerbit"));
-            buku.setPenulis(rs.getString("penulis"));
+        try {
+            while (rs.next()) {
+                Buku buku = new Buku();
+                buku.setIdBuku(rs.getInt("idbuku"));
+                buku.getKategori().setIdkategori(rs.getInt("idkategori"));
+                buku.getKategori().setNama(rs.getString("nama"));
+                buku.setJudul(rs.getString("judul"));
+                buku.setPenerbit(rs.getString("penerbit"));
+                buku.setPenulis(rs.getString("penulis"));
 
-            ListBuku.add(buku);
+                listBuku.add(buku);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        return listBuku;
     }
-
-    return ListBuku;
-}
 
 public ArrayList<Buku> search(String keyword) {
     ArrayList<Buku> ListBuku = new ArrayList<>();
@@ -136,7 +119,6 @@ public ArrayList<Buku> search(String keyword) {
             " b.penulis AS penulis, " +
             " k.idkategori AS idkategori, " +
             " k.nama AS nama, " +
-            " k.keterangan AS keterangan " +
             " FROM buku b " +
             " LEFT JOIN kategori k ON b.idkategori = k.idkategori " +
             " WHERE b.judul LIKE '%" + keyword + "%' " +
@@ -149,7 +131,6 @@ public ArrayList<Buku> search(String keyword) {
             buku.setIdBuku(rs.getInt("idbuku"));
             buku.getKategori().setIdkategori(rs.getInt("idkategori"));
             buku.getKategori().setNama(rs.getString("nama"));
-            buku.getKategori().setKeterangan(rs.getString("keterangan"));
             buku.setJudul(rs.getString("judul"));
             buku.setPenerbit(rs.getString("penerbit"));
             buku.setPenulis(rs.getString("penulis"));

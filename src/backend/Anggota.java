@@ -61,7 +61,7 @@ public class Anggota {
 
     public Anggota getById(int id){
         Anggota ang = new Anggota();
-        ResultSet rs = DBHelper.selectQuery("SELECT * FROM anggota WHERE idanggota = '" + id + "'");
+        ResultSet rs = DBHelper.selectQuery("SELECT * FROM anggota WHERE idanggota= '" + id + "'");
 
         
         try{
