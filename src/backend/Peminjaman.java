@@ -127,7 +127,7 @@ public class Peminjaman {
                    "FROM peminjaman p " +
                    "LEFT JOIN anggota a ON p.idanggota = a.idanggota " +
                    "LEFT JOIN buku b ON p.idbuku = b.idbuku " +
-                   "LEFT JOIN pegawai pg ON p.idpegawai = pg.idpegawai";
+                   "LEFT JOIN pegawai pg ON p.idpegawai = pg.idpegawai ORDER BY P.idpeminjaman DESC";
 
     ResultSet rs = DBHelper.selectQuery(query);
 
